@@ -1,11 +1,9 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { auth } from "../../../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { db } from "../../../firebaseConfig";
 
 export default function Home() {
   const [email, setEmail] = useState("");

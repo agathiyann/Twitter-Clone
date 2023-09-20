@@ -9,7 +9,6 @@ import {
   AiOutlineMail,
   AiOutlineUser,
 } from "react-icons/ai";
-import { CiCircleMore } from "react-icons/ci";
 import { FiMoreHorizontal } from "react-icons/fi";
 import LogOutbox from "./LogOutbox";
 import { DisplayName } from "@/UserInformation/DisplayName";

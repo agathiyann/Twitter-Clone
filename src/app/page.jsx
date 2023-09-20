@@ -2,7 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { auth } from "../../firebaseConfig";
+import { auth,provider } from "../../firebaseConfig";
+import { Auth } from "./signinwithgoogle";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Cookies from "universal-cookie";
@@ -16,33 +17,32 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-
-  const handleLogin = async (e) => {
+const handleLogin = async (e) => {
     e.preventDefault();
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         router.push("/home");
         console.log(user);
-        
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
       });
-      const result = await signInWithEmailAndPassword(auth, provider);
-        const cookies = new Cookies();
-          cookies.set("auth-token", result.user.refreshToken);
-            setIsAuth(true);
 
+    const result = await signInWithEmailAndPassword(auth, provider);
+    const cookies = new Cookies();
+    cookies.set("auth-token", result.user.refreshToken);
+    setIsAuth(true);
   };
+  
   
   const handleShowPassword = () => {
     const element = document.getElementById("user-password");
     element.type = (element.type === "password") ? "text" : "password";
   };
-
+  
   return (
     <main
       className="md:w-[500px] md:h-[600px] w-[400px] h-[550px] rounded-lg bg-black  absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-3"
@@ -58,7 +58,15 @@ export default function Home() {
           <h2 className="font-extrabold text-[20px] ml-[5rem] mt-5"style={{ color: 'white' }}>
             Sign into X
           </h2>
-          
+          <div className="space-y-3 mt-[2rem]">
+            {/* Sign in with Google */}
+            <div
+              className="flex justify-center w-[70%] m-auto space-x-2 p-2 rounded-[999px] bg-slate-200 cursor-pointer"onClick={Auth}
+            >
+              <Image src={"/google.png"} alt="Google" width={32} height={32} />
+              <p className="mt-1 font-bold">Continue with Google</p>
+            </div>
+          </div>
 
           <form action=""></form>
           <div className="flex flex-col gap-y-6 mt-9">
@@ -73,7 +81,7 @@ export default function Home() {
               <input
                 type="password"
                 placeholder="Enter your password"
-                className="w-[80%] m-left h-[2rem] px-2  py-6 rounded-lg border-2 focus:outline-none"
+                className="w-[83%] m-left h-[2rem] px-2  py-6 rounded-lg border-2 focus:outline-none"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 id="user-password"
@@ -98,4 +106,5 @@ export default function Home() {
       </div>
     </main>
   );
+
 }
