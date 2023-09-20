@@ -6,7 +6,6 @@ import { auth,provider } from "../../firebaseConfig";
 import { Auth } from "./signinwithgoogle";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import Cookies from "universal-cookie";
 import {AiFillEye} from "react-icons/ai";
 export const DisplayName = () => {
   const name = user.DisplayName;
